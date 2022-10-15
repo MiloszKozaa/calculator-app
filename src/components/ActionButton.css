@@ -1,0 +1,32 @@
+.ActionButton {
+  font-size: 25px;
+  font-weight: 400;
+  border: none;
+  transition: 0.2s;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  background-color: #272b33;
+  color: #26f4cf;
+}
+.ActionSpecialButton {
+  font-size: 25px;
+  font-weight: 400;
+  border: none;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+  transition: 0.2s;
+  background-color: #26f4cf;
+  color: #272b33;
+}
+
+.ActionButton:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  background-color: #26f4cf;
+  color: #272b33;
+}
+
+.ActionSpecialButton:hover {
+  box-shadow: 0 0 20px rgba(0, 255, 208, 0.8);
+  background-color: #00ffd0;
+  color: #272b33;
+}

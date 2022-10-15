@@ -1,0 +1,16 @@
+.preview {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  height: 30px;
+}
+
+.number {
+  opacity: 60%;
+  font-size: 20px;
+}
+
+.operator {
+  font-size: 25px;
+  color: #e86565;
+}

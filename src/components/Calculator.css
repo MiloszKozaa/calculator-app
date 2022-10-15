@@ -1,0 +1,19 @@
+.wrapper {
+  background-color: #22252d;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
+  border-radius: 40px;
+}
+
+.screen {
+  padding: 20px 40px;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 60px);
+  grid-template-rows: minmax(60px, auto) repeat(4, 60px);
+  background-color: #292d36;
+  gap: 20px;
+  border-radius: 40px;
+  padding: 40px;
+}

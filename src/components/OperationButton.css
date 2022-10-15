@@ -1,0 +1,32 @@
+.OperationButton {
+  font-size: 25px;
+  font-weight: 400;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  transition: 0.2s;
+  background-color: #272b33;
+  color: #e86565;
+}
+.OperationSpecialButton {
+  font-size: 25px;
+  font-weight: 400;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  transition: 0.2s;
+  background-color: #e86565;
+  color: #272b33;
+}
+
+.OperationButton:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  background-color: #e86565;
+  color: #272b33;
+}
+
+.OperationSpecialButton:hover {
+  box-shadow: 0 0 20px rgba(255, 85, 85, 0.8);
+  background-color: #ff5555;
+  color: #272b33;
+}
