@@ -1,15 +1,16 @@
-export type LinkTypes = {
-  link: string;
-  linkTitle: string;
+export type NavTypes = {
+  darkMode: any;
 };
 
 export type NumberButtonTypes = {
   digit: string;
+  darkMode?: boolean;
   dispatch: ({}: {}) => void;
 };
 
 export type OperationButtonTypes = {
   operation: string;
+  darkMode?: boolean;
   dispatch: ({}: {}) => void;
   special?: boolean;
   onClick?: () => void;
@@ -17,14 +18,15 @@ export type OperationButtonTypes = {
 
 export type ActionButtonTypes = {
   name: string;
+  darkMode?: boolean;
   special?: boolean;
-  onClick?: () => void;
+  isCopied?: boolean;
+  onClick: () => void;
 };
 
-export type IconButtonTypes = {
-  name: string;
-  style: string;
-  onClick?: () => void;
+export type LightModeButtonTypes = {
+  darkMode?: boolean;
+  onClick: () => void;
 };
 
 export type ResultTypes = {

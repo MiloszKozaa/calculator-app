@@ -1,4 +1,7 @@
 .ActionButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 25px;
   font-weight: 400;
   border: none;
@@ -9,6 +12,9 @@
   color: #26f4cf;
 }
 .ActionSpecialButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 25px;
   font-weight: 400;
   border: none;
@@ -27,6 +33,20 @@
 
 .ActionSpecialButton:hover {
   box-shadow: 0 0 20px rgba(0, 255, 208, 0.8);
+  background-color: #00ffd0;
+  color: #272b33;
+}
+
+.CopiedButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  font-weight: 400;
+  border: none;
+  border-radius: 20px;
+  transition: 0.2s;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
   background-color: #00ffd0;
   color: #272b33;
 }

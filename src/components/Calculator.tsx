@@ -1,11 +1,13 @@
-//SHOW INFO NUMBER COPIED
 //CREATE LIGHT AND DARK MODE
+//CREATE VIEW ON PHONE
 
 import { useReducer } from 'react';
-import ActionButton from './ActionButton';
 import OperationButton from './OperationButton';
+import LightModeButton from './LightModeButton';
+import ActionButton from './ActionButton';
 import NumberButton from './NumberButton';
-import IconButton from './IconButton';
+import Header from '../layouts/Header';
+import Footer from '../layouts/Footer';
 import Preview from './Preview';
 import Result from './Result';
 import './Calculator.css';
@@ -18,6 +20,7 @@ export const ACTIONS = {
   DELETE_DIGIT: 'delete-digit',
   EVALUATE: 'evaluate',
   COPY: 'copy',
+  DARK_MODE: 'dark-mode',
 };
 
 const reducer = (state: any, { type, payload }: any) => {
@@ -28,6 +31,7 @@ const reducer = (state: any, { type, payload }: any) => {
           ...state,
           currentOperand: payload.digit,
           overwrite: false,
+          copied: false,
         };
       }
       if (payload.digit === '0' && state.currentOperand === '0') {
@@ -45,6 +49,7 @@ const reducer = (state: any, { type, payload }: any) => {
       return {
         ...state,
         currentOperand: `${state.currentOperand || ''}${payload.digit}`,
+        copied: false,
       };
     case ACTIONS.CLEAR:
       return {};
@@ -58,6 +63,7 @@ const reducer = (state: any, { type, payload }: any) => {
           operation: payload.operation,
           previousOperand: state.currentOperand,
           currentOperand: null,
+          copied: false,
         };
       }
       if (!state.currentOperand) {
@@ -73,6 +79,7 @@ const reducer = (state: any, { type, payload }: any) => {
         operation: payload.operation,
         previousOperand: evaluate(state),
         currentOperand: null,
+        copied: false,
       };
     case ACTIONS.EVALUATE:
       if (state.previousOperand && !state.currentOperand) {
@@ -81,6 +88,7 @@ const reducer = (state: any, { type, payload }: any) => {
           currentOperand: state.previousOperand,
           operation: null,
           previousOperand: null,
+          copied: false,
         };
       }
       if (!state.previousOperand || !state.currentOperand || !state.operation) {
@@ -91,6 +99,7 @@ const reducer = (state: any, { type, payload }: any) => {
         overwrite: true,
         previousOperand: null,
         operation: null,
+        copied: false,
         currentOperand: evaluate(state),
       };
     case ACTIONS.DELETE_CURRENT:
@@ -101,10 +110,15 @@ const reducer = (state: any, { type, payload }: any) => {
         ...state,
         previousOperand: state.previousOperand,
         currentOperand: null,
+        copied: false,
       };
     case ACTIONS.COPY:
       if (state.currentOperand) {
         navigator.clipboard.writeText(state.currentOperand.toString());
+        return {
+          ...state,
+          copied: true,
+        };
       }
       return state;
     case ACTIONS.DELETE_DIGIT:
@@ -115,26 +129,53 @@ const reducer = (state: any, { type, payload }: any) => {
           currentOperand: null,
         };
       }
-      if (!state.currentOperand) {
-        return state;
+      if (!state.currentOperand && !state.previousOperand) {
+        return {
+          ...state,
+          copied: false,
+        };
+      }
+      if (!state.currentOperand && state.previousOperand) {
+        return {
+          ...state,
+          currentOperand: state.previousOperand,
+          operation: null,
+          previousOperand: null,
+          copied: false,
+        };
       }
       if (state.currentOperand.length === 1) {
         return {
           ...state,
           currentOperand: null,
+          copied: false,
         };
       }
       return {
         ...state,
         currentOperand: state.currentOperand.slice(0, -1),
+        copied: false,
       };
+    case ACTIONS.DARK_MODE:
+      if (state.darkMode) {
+        return {
+          ...state,
+          darkMode: false,
+        };
+      }
+      if (!state.darkMode) {
+        return {
+          ...state,
+          darkMode: true,
+        };
+      }
   }
 };
 
 const evaluate = ({ previousOperand, currentOperand, operation }: any) => {
   let computation;
-  const previous = parseInt(previousOperand);
-  const current = parseInt(currentOperand);
+  const previous = parseFloat(previousOperand);
+  const current = parseFloat(currentOperand);
   if (isNaN(previous) || isNaN(current)) {
     return '';
   }
@@ -164,62 +205,83 @@ const formatOperand = (operand: any) => {
 };
 
 const Calculator = () => {
-  const [{ previousOperand, currentOperand, operation }, dispatch] = useReducer(
-    reducer,
-    {}
-  );
+  const [
+    { previousOperand, currentOperand, operation, copied, darkMode },
+    dispatch,
+  ] = useReducer(reducer, {});
 
   return (
-    <div className='wrapper'>
-      <div className='screen'>
-        <Preview
-          preview={formatOperand(previousOperand)}
-          operation={operation}
-        />
-        <Result result={formatOperand(currentOperand)} />
+    <div className={darkMode ? 'Calculator_dark' : 'Calculator_light'}>
+      <Header darkMode={darkMode} />
+      <div className='wrapper'>
+        <div className='screen'>
+          <Preview
+            preview={formatOperand(previousOperand)}
+            operation={operation}
+          />
+          <Result result={formatOperand(currentOperand)} />
+        </div>
+        <div className='buttons'>
+          <ActionButton
+            name='AC'
+            special={true}
+            onClick={() => dispatch({ type: ACTIONS.CLEAR })}
+          />
+          <ActionButton
+            name='back'
+            darkMode={darkMode}
+            onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })}
+          />
+          <ActionButton
+            name='copy'
+            isCopied={copied}
+            darkMode={darkMode}
+            onClick={() => dispatch({ type: ACTIONS.COPY })}
+          />
+          <OperationButton
+            operation='÷'
+            dispatch={dispatch}
+            darkMode={darkMode}
+          />
+          <NumberButton digit='7' dispatch={dispatch} darkMode={darkMode} />
+          <NumberButton digit='8' dispatch={dispatch} darkMode={darkMode} />
+          <NumberButton digit='9' dispatch={dispatch} darkMode={darkMode} />
+          <OperationButton
+            operation='×'
+            dispatch={dispatch}
+            darkMode={darkMode}
+          />
+          <NumberButton digit='4' dispatch={dispatch} darkMode={darkMode} />
+          <NumberButton digit='5' dispatch={dispatch} darkMode={darkMode} />
+          <NumberButton digit='6' dispatch={dispatch} darkMode={darkMode} />
+          <OperationButton
+            operation='-'
+            dispatch={dispatch}
+            darkMode={darkMode}
+          />
+          <NumberButton digit='1' dispatch={dispatch} darkMode={darkMode} />
+          <NumberButton digit='2' dispatch={dispatch} darkMode={darkMode} />
+          <NumberButton digit='3' dispatch={dispatch} darkMode={darkMode} />
+          <OperationButton
+            operation='+'
+            dispatch={dispatch}
+            darkMode={darkMode}
+          />
+          <NumberButton digit='.' dispatch={dispatch} darkMode={darkMode} />
+          <NumberButton digit='0' dispatch={dispatch} darkMode={darkMode} />
+          <LightModeButton
+            darkMode={darkMode}
+            onClick={() => dispatch({ type: ACTIONS.DARK_MODE })}
+          />
+          <OperationButton
+            operation='='
+            special={true}
+            dispatch={dispatch}
+            onClick={() => dispatch({ type: ACTIONS.EVALUATE })}
+          />
+        </div>
       </div>
-      <div className='buttons'>
-        <ActionButton
-          name='AC'
-          special={true}
-          onClick={() => dispatch({ type: ACTIONS.CLEAR })}
-        />
-        <ActionButton
-          name='C'
-          onClick={() => dispatch({ type: ACTIONS.DELETE_CURRENT })}
-        />
-        <IconButton
-          name='back'
-          style='Action'
-          onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })}
-        />
-        <OperationButton operation='÷' dispatch={dispatch} />
-        <NumberButton digit='7' dispatch={dispatch} />
-        <NumberButton digit='8' dispatch={dispatch} />
-        <NumberButton digit='9' dispatch={dispatch} />
-        <OperationButton operation='×' dispatch={dispatch} />
-        <NumberButton digit='4' dispatch={dispatch} />
-        <NumberButton digit='5' dispatch={dispatch} />
-        <NumberButton digit='6' dispatch={dispatch} />
-        <OperationButton operation='-' dispatch={dispatch} />
-        <NumberButton digit='1' dispatch={dispatch} />
-        <NumberButton digit='2' dispatch={dispatch} />
-        <NumberButton digit='3' dispatch={dispatch} />
-        <OperationButton operation='+' dispatch={dispatch} />
-        <NumberButton digit='.' dispatch={dispatch} />
-        <NumberButton digit='0' dispatch={dispatch} />
-        <IconButton
-          name='copy'
-          style='Number'
-          onClick={() => dispatch({ type: ACTIONS.COPY })}
-        />
-        <OperationButton
-          operation='='
-          special={true}
-          dispatch={dispatch}
-          onClick={() => dispatch({ type: ACTIONS.EVALUATE })}
-        />
-      </div>
+      <Footer darkMode={darkMode} />
     </div>
   );
 };

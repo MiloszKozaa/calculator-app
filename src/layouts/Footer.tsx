@@ -1,11 +1,14 @@
 import './Footer.css';
-import Link from './Link';
+import { NavTypes } from '../types/App.types';
 
-const Footer = () => {
+
+const Footer = ({darkMode }: NavTypes) => {
   return (
     <div className='footerWrapper'>
       <div> All rights reserved by</div>
-      <Link link='https://github.com/MiloszKozaa' linkTitle='Miłosz Koza' />
+      <a className={darkMode ? 'link' : 'link_l'} target='_blank' href='https://github.com/MiloszKozaa'>
+      Miłosz Koza
+    </a>
     </div>
   );
 };

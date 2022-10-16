@@ -29,3 +29,47 @@
     justify-content: center;
   }
 }
+
+.link {
+  color: #fff;
+  font-weight: 800;
+  transition: 0.3s;
+}
+
+.link:link {
+  text-decoration: none;
+}
+
+.link:visited {
+  text-decoration: none;
+}
+
+.link:hover {
+  text-shadow: 0 0 20px #fff;
+}
+
+.link:active {
+  text-decoration: none;
+}
+
+.link_l {
+  color: #22252d;
+  font-weight: 800;
+  transition: 0.3s;
+}
+
+.link_l:link {
+  text-decoration: none;
+}
+
+.link_l:visited {
+  text-decoration: none;
+}
+
+.link_l:hover {
+  text-shadow: 0 0 20px #22252d;
+}
+
+.link_l:active {
+  text-decoration: none;
+}

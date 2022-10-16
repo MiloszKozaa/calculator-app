@@ -1,19 +1,27 @@
 import './Header.css';
-import Link from './Link';
+import { NavTypes } from '../types/App.types';
 
-const Header = () => {
+
+const Header = ({ darkMode }: NavTypes) => {
   return (
     <div className='headerWrapper'>
       <div className='headerLogo'>
-        <Link
-          link='https://github.com/MiloszKozaa/calculator-app'
-          linkTitle='calculator'
-        />
+        <a
+          className={darkMode ? 'link' : 'link_l'}
+          target='_blank'
+          href='https://github.com/MiloszKozaa/calculator-app'>
+          calculator
+        </a>
         app
       </div>
       <div className='headerMade'>
         Site made by
-        <Link link='https://github.com/MiloszKozaa' linkTitle='Miłosz Koza' />
+        <a
+          className={darkMode ? 'link' : 'link_l'}
+          target='_blank'
+          href='https://github.com/MiloszKozaa'>
+          Miłosz Koza
+        </a>
       </div>
     </div>
   );
