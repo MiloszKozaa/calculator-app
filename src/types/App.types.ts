@@ -12,6 +12,7 @@ export type OperationButtonTypes = {
   operation: string;
   dispatch: ({}: {}) => void;
   special?: boolean;
+  onClick?: () => void;
 };
 
 export type ActionButtonTypes = {
@@ -20,8 +21,14 @@ export type ActionButtonTypes = {
   onClick?: () => void;
 };
 
+export type IconButtonTypes = {
+  name: string;
+  style: string;
+  onClick?: () => void;
+};
+
 export type ResultTypes = {
-  result: string;
+  result?: string;
 };
 
 export type PreviewTypes = {

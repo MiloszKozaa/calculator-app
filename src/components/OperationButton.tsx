@@ -6,11 +6,20 @@ const OperationButton = ({
   dispatch,
   operation,
   special,
+  onClick,
 }: OperationButtonTypes) => {
   return (
     <button
       className={special ? 'OperationSpecialButton' : 'OperationButton'}
-      onClick={() => dispatch({ type: ACTIONS.CHOOSE_OPERATION, payload: { operation } })}>
+      onClick={
+        onClick
+          ? onClick
+          : () =>
+              dispatch({
+                type: ACTIONS.CHOOSE_OPERATION,
+                payload: { operation },
+              })
+      }>
       {operation}
     </button>
   );
