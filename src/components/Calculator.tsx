@@ -1,4 +1,3 @@
-//CREATE LIGHT AND DARK MODE
 //CREATE VIEW ON PHONE
 
 import { useReducer } from 'react';
@@ -37,9 +36,16 @@ const reducer = (state: any, { type, payload }: any) => {
       if (payload.digit === '0' && state.currentOperand === '0') {
         return state;
       }
+      if (payload.digit === '.' && !state.currentOperand) {
+        return {
+          ...state,
+          currentOperand: `0${payload.digit}`,
+        };
+      }
       if (payload.digit === '.' && state.currentOperand.includes('.')) {
         return state;
       }
+
       if (state.currentOperand && state.currentOperand.length > 11) {
         return {
           ...state,
@@ -52,7 +58,9 @@ const reducer = (state: any, { type, payload }: any) => {
         copied: false,
       };
     case ACTIONS.CLEAR:
-      return {};
+      return {
+        darkMode: state.darkMode,
+      };
     case ACTIONS.CHOOSE_OPERATION:
       if (!state.previousOperand && !state.currentOperand) {
         return state;
@@ -211,9 +219,9 @@ const Calculator = () => {
   ] = useReducer(reducer, {});
 
   return (
-    <div className={darkMode ? 'Calculator_dark' : 'Calculator_light'}>
-      <Header darkMode={darkMode} />
-      <div className='wrapper'>
+    <div className={!darkMode ? 'Calculator_dark' : 'Calculator_light'}>
+      <Header darkMode={!darkMode} />
+      <div className={!darkMode ? 'wrapper_dark' : 'wrapper_light'}>
         <div className='screen'>
           <Preview
             preview={formatOperand(previousOperand)}
@@ -221,7 +229,7 @@ const Calculator = () => {
           />
           <Result result={formatOperand(currentOperand)} />
         </div>
-        <div className='buttons'>
+        <div className={!darkMode ? 'buttons_dark' : 'buttons_light'}>
           <ActionButton
             name='AC'
             special={true}
@@ -229,48 +237,48 @@ const Calculator = () => {
           />
           <ActionButton
             name='back'
-            darkMode={darkMode}
+            darkMode={!darkMode}
             onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })}
           />
           <ActionButton
             name='copy'
             isCopied={copied}
-            darkMode={darkMode}
+            darkMode={!darkMode}
             onClick={() => dispatch({ type: ACTIONS.COPY })}
           />
           <OperationButton
             operation='÷'
             dispatch={dispatch}
-            darkMode={darkMode}
+            darkMode={!darkMode}
           />
-          <NumberButton digit='7' dispatch={dispatch} darkMode={darkMode} />
-          <NumberButton digit='8' dispatch={dispatch} darkMode={darkMode} />
-          <NumberButton digit='9' dispatch={dispatch} darkMode={darkMode} />
+          <NumberButton digit='7' dispatch={dispatch} darkMode={!darkMode} />
+          <NumberButton digit='8' dispatch={dispatch} darkMode={!darkMode} />
+          <NumberButton digit='9' dispatch={dispatch} darkMode={!darkMode} />
           <OperationButton
             operation='×'
             dispatch={dispatch}
-            darkMode={darkMode}
+            darkMode={!darkMode}
           />
-          <NumberButton digit='4' dispatch={dispatch} darkMode={darkMode} />
-          <NumberButton digit='5' dispatch={dispatch} darkMode={darkMode} />
-          <NumberButton digit='6' dispatch={dispatch} darkMode={darkMode} />
+          <NumberButton digit='4' dispatch={dispatch} darkMode={!darkMode} />
+          <NumberButton digit='5' dispatch={dispatch} darkMode={!darkMode} />
+          <NumberButton digit='6' dispatch={dispatch} darkMode={!darkMode} />
           <OperationButton
             operation='-'
             dispatch={dispatch}
-            darkMode={darkMode}
+            darkMode={!darkMode}
           />
-          <NumberButton digit='1' dispatch={dispatch} darkMode={darkMode} />
-          <NumberButton digit='2' dispatch={dispatch} darkMode={darkMode} />
-          <NumberButton digit='3' dispatch={dispatch} darkMode={darkMode} />
+          <NumberButton digit='1' dispatch={dispatch} darkMode={!darkMode} />
+          <NumberButton digit='2' dispatch={dispatch} darkMode={!darkMode} />
+          <NumberButton digit='3' dispatch={dispatch} darkMode={!darkMode} />
           <OperationButton
             operation='+'
             dispatch={dispatch}
-            darkMode={darkMode}
+            darkMode={!darkMode}
           />
-          <NumberButton digit='.' dispatch={dispatch} darkMode={darkMode} />
-          <NumberButton digit='0' dispatch={dispatch} darkMode={darkMode} />
+          <NumberButton digit='.' dispatch={dispatch} darkMode={!darkMode} />
+          <NumberButton digit='0' dispatch={dispatch} darkMode={!darkMode} />
           <LightModeButton
-            darkMode={darkMode}
+            darkMode={!darkMode}
             onClick={() => dispatch({ type: ACTIONS.DARK_MODE })}
           />
           <OperationButton
@@ -281,7 +289,7 @@ const Calculator = () => {
           />
         </div>
       </div>
-      <Footer darkMode={darkMode} />
+      <Footer darkMode={!darkMode} />
     </div>
   );
 };

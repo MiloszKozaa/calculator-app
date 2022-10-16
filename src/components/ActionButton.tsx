@@ -6,6 +6,7 @@ const ActionButton = ({
   name,
   special,
   onClick,
+  darkMode,
   isCopied,
 }: ActionButtonTypes) => {
   const [hover, hoverSet] = useState(false);
@@ -16,10 +17,16 @@ const ActionButton = ({
         name === 'back' || name === 'copy'
           ? isCopied
             ? 'CopiedButton'
-            : 'ActionButton'
+            : darkMode
+            ? 'ActionButton'
+            : 'ActionButton_light'
           : special
-          ? 'ActionSpecialButton'
-          : 'ActionButton'
+          ? darkMode
+            ? 'ActionSpecialButton'
+            : 'ActionSpecialButton_light'
+          : darkMode
+          ? 'ActionButton'
+          : 'ActionButton_light'
       }
       onClick={onClick}
       onMouseEnter={() => hoverSet(true)}

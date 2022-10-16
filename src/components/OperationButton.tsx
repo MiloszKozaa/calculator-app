@@ -6,11 +6,18 @@ const OperationButton = ({
   dispatch,
   operation,
   special,
+  darkMode,
   onClick,
 }: OperationButtonTypes) => {
   return (
     <button
-      className={special ? 'OperationSpecialButton' : 'OperationButton'}
+      className={
+        special
+          ? 'OperationSpecialButton'
+          : darkMode
+          ? 'OperationButton'
+          : 'OperationButton_light'
+      }
       onClick={
         onClick
           ? onClick
