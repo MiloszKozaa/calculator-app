@@ -1,5 +1,5 @@
 import { OperationButtonTypes } from '../types/App.types';
-import { ACTIONS } from './Calculator';
+import { ACTIONS } from '../App.actions';
 import './OperationButton.css';
 
 const OperationButton = ({

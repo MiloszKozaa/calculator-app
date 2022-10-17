@@ -1,5 +1,5 @@
 import { NumberButtonTypes } from '../types/App.types';
-import { ACTIONS } from './Calculator';
+import { ACTIONS } from '../App.actions';
 import './NumberButton.css';
 
 const OperationButton = ({ dispatch, darkMode, digit }: NumberButtonTypes) => {
